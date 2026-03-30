@@ -71,5 +71,16 @@ namespace phase_1.Services
             await _context.SaveChangesAsync();
             return existingProduct;
         }
-    }
+        public async Task<Product> DeleteProductAsync(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return null;
+            }
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return product;
+        }
+    } 
 }

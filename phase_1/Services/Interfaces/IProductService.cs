@@ -12,5 +12,6 @@ namespace phase_1.Services.Interfaces
         Task<IEnumerable<Product>> SearchProductsAsync(string keyword);
         Task<Product> CreateProductAsync(Product newProduct);
         Task<Product> UpdateProductAsync(Product newProduct);
+        Task<Product> DeleteProductAsync(int id);
     }
 }

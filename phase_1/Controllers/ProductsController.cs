@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using phase_1.Models;
 using phase_1.Services.Interfaces;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace phase_1.Controllers
 {
@@ -35,21 +36,34 @@ namespace phase_1.Controllers
             var result = await _productService.SearchProductsAsync(keyword);
             return Ok(result);
         }
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateProductAsync([FromBody] Product product)
         {
             var result = await _productService.CreateProductAsync(product);
             return Ok(result);
         }
+        [Authorize]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateProductAsync([FromBody] Product product)
         {
             var result = await _productService.UpdateProductAsync(product);
             if (result == null)
             {
-                return NotFound($"Khong thay thay san pham co Id = {product.Id}");
+                return NotFound($"Khong thay san pham co Id = {product.Id}");
             }
             return Ok(result);
         }
-    }
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProductAsync([FromRoute] int id)
+        {
+            var result = await _productService.DeleteProductAsync(id);
+            if (result == null)
+            {
+                return NotFound($"Khong thay san pham co Id = {id}");
+            }
+            return Ok(result);
+        }
+    } 
 }

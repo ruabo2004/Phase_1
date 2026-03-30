@@ -9,5 +9,6 @@ namespace phase_1.Data
         {
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
