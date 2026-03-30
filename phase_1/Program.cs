@@ -1,5 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using phase_1.Data;
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
 // Add services to the container.
 builder.Services.AddScoped<phase_1.Services.Interfaces.IProductService, phase_1.Services.ProductService>();
 

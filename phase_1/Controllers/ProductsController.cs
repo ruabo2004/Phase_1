@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using phase_1.Models;
 using phase_1.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -15,16 +16,16 @@ namespace phase_1.Controllers
         }
 
         [HttpGet("top3/{category}")]
-        public IActionResult GetTop3ByCategory(string category)
+        public async Task<IActionResult> GetTop3ByCategoryAsync([FromRoute] string category)
         {
-            var result = _productService.GetTop3HighestPricedProductsByCategory(category);
+            var result = await _productService.GetTop3HighestPricedProductsByCategoryAsync(category);
             return Ok(result);
         }
 
         [HttpGet("summary")]
-        public IActionResult GetCategorySummary()
+        public async Task<IActionResult> GetCategorySummaryAsync()
         {
-            var result = _productService.GetTotalPriceByCategory();
+            var result = await _productService.GetTotalPriceByCategoryAsync();
             return Ok(result);
         }
 
@@ -32,6 +33,22 @@ namespace phase_1.Controllers
         public async Task<IActionResult> SearchProductsAsync([FromQuery] string keyword)
         {
             var result = await _productService.SearchProductsAsync(keyword);
+            return Ok(result);
+        }
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateProductAsync([FromBody] Product product)
+        {
+            var result = await _productService.CreateProductAsync(product);
+            return Ok(result);
+        }
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateProductAsync([FromBody] Product product)
+        {
+            var result = await _productService.UpdateProductAsync(product);
+            if (result == null)
+            {
+                return NotFound($"Khong thay thay san pham co Id = {product.Id}");
+            }
             return Ok(result);
         }
     }
