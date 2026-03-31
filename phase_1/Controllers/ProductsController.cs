@@ -54,7 +54,7 @@ namespace phase_1.Controllers
             }
             return Ok(result);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductAsync([FromRoute] int id)
         {
